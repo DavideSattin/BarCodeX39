@@ -29,37 +29,7 @@ int main()
     savepng(result,"barcode.png");
     
 
-    // if (IsValidString(originalString))
-    // {
-    //     printf("Valida Valore %s", originalString);
-    // }
-    // else
-    // {
-    //     printf("Non Valida Valore %s", originalString);      
-    //     exit(1);
-    // }
-
-
-
-    // Decode(originalString, destination);
-    // printf("Result: %s\n" ,destination);
-
     
-
-    // char originalString[] = "DAVIDE";
-    // int width = 400, height = 100;
-    // unsigned char* image = CreateBarCode(width, height, originalString);
-    // if (image==NULL)
-    // {
-    //     exit(1);
-    // }
-
-    // WriteBarCode(image, "barcode.png", width, height);
-
-    // free(image);
-    // image = NULL;  
-
-    // printf("BarCode Ciao\n");
  
 
     return 0;
