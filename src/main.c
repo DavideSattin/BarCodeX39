@@ -18,6 +18,7 @@ int main()
     opt.narrowLineWidth = 1;
   
     barcode39Data* result = generate(opt, originalString);
+    
     printf("Result: %d", result->result);
     
     savepng(result,"barcode.png");
