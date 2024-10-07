@@ -234,19 +234,29 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
         exit(1);
     }
 
-    //Set the font sca.e
+
+
+    //Set the font scale
+    int fontHeight = 28;
+    int fontWidth  = fontHeight /2;
     float scale = stbtt_ScaleForPixelHeight(&font, 28);
 
-    //Rset the pointer.
+  
+    //Reset the pointer.
     char1 = newString;
-    int startx = 10;
+    
+    //int x = (imageResult->width - bcodeWidth) /2;
+    int startx = (imageResult->width - (strlen(char1) * fontWidth)) / 2;
+
+  
     int offsetX = 0;
+    int offsetY = imageResult->heigth - fontHeight  - 20;
     int counter  = 0;
-    while(*char1)
+    while(*char1)       //change with a for
     {
 
-        int value = startx + (counter * 14);
-        drawCharOnBitmap(imageResult->image, imageResult->width, imageResult->heigth, value, 70, &font, *char1, scale);
+        int value = startx + (counter * fontWidth);
+        drawCharOnBitmap(imageResult->image, imageResult->width, imageResult->heigth, value, offsetY, &font, *char1, scale);
         char1++;
         counter++;
     }
