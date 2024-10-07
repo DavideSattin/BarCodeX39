@@ -15,62 +15,59 @@
 #define BARCODE39_DIGIT  9
 
 typedef struct {
-    char character;              // Carattere del Code39
-    const char *nwpattern;       // Pattern binario
-    int checkSum;               // Checksum.
+    char character;              // CHAR
+    const char *nwpattern;       // Binary Pattern.
+    int checkSum;                // Checksum.
 } Code39Char;
 
 
 
 static const Code39Char code39_table_const[] = {
-    {'0', "NNNWWNWNN", 0},  // Carattere '0': Pattern e posizioni di barre/spazi larghi
-    {'1', "WNNWNNNNW", 1},  // Carattere '1'   {'1', "100100001", "WNNWNNNNW", 1}
-    {'2', "NNWWNNNNW", 2},  // Carattere '2'
-    {'3', "WNWWNNNNN", 3},  // Carattere '3'
-    {'4', "NNNWWNNNW", 4},  // Carattere '4'
-    {'5', "WNNWWNNNN", 5},  // Carattere '5'
-    {'6', "NNWWWNNNN", 6},  // Carattere '6'
-    {'7', "NNNWNNWNW", 7},  // Carattere '7'
-    {'8', "WNNWNNWNN", 8},  // Carattere '8'
-    {'9', "NNWWNNWNN", 9},  // Carattere '9'
-    {'A', "WNNNNWNNW", 10},  // Carattere 'A'  {'A', "100001001", "WNNNNWNNW", 10},
-    {'B', "NNWNNWNNW", 11},  // Carattere 'B'
-    {'C', "WNWNNWNNN", 12},  // Carattere 'C'
-    {'D', "NNNNWWNNW", 13},  // Carattere 'D'
-    {'E', "WNNNWWNNN", 14},  // Carattere 'E'
-    {'F', "NNWNWWNNN", 15},  // Carattere 'F'
-    {'G', "NNNNNWWNW", 16},  // Carattere 'G'
-    {'H', "WNNNNWWNN", 17},  // Carattere 'H'
-    {'I', "NNWNNWWNN", 18},  // Carattere 'I'
-    {'J', "NNNNWWWNN", 19},  // Carattere 'J'
-    {'K', "WNNNNNNWW", 20},  // Carattere 'K'
-    {'L', "NNWNNNNWW", 21},  // Carattere 'L'
-    {'M', "WNWNNNNWN", 22},  // Carattere 'M'
-    {'N', "NNNNWNNWW", 23},  // Carattere 'N'
-    {'O', "WNNNWNNWN", 24},  // Carattere 'O'
-    {'P', "NNWNWNNWN", 25},  // Carattere 'P'
-    {'Q', "NNNNNNWWW", 26},  // Carattere 'Q'
-    {'R', "WNNNNNWWN", 27},  // Carattere 'R'
-    {'S', "NNWNNNWWN", 28},  // Carattere 'S'
-    {'T', "NNNNWNWWN", 29},  // Carattere 'T'
-    {'U', "WWNNNNNNW", 30},  // Carattere 'U'
-    {'V', "NWWNNNNNW", 31},  // Carattere 'V'
-    {'W', "WWWNNNNNN", 32},  // Carattere 'W'
-    {'X', "NWNNWNNNW", 33},  // Carattere 'X'
-    {'Y', "WWNNWNNNN", 34},  // Carattere 'Y'
-    {'Z', "NWWNWNNNN", 35},  // Carattere 'Z'
-    {'-', "NWNNNNWNW", 36},  // Carattere '-'
-    {'.', "WWNNNNWNN", 37},  // Carattere '.'
-    {' ', "NWWNNNWNN", 38},  // Carattere ' '
-    {'*', "NWNNWNWNN", -1},  // Carattere '*'
-    {'$', "NWNWNWNNN", 39},  // Carattere '$'
-    {'/', "NWNWNNNWN", 40},  // Carattere '/'
-    {'+', "NWNNNWNWN", 41},  // Carattere '+'
-    {'%', "NNNWNWNWN", 42}   // Carattere '%'
+    {'0', "NNNWWNWNN", 0},  // Char '0'
+    {'1', "WNNWNNNNW", 1},  // Char '1'   {'1', "100100001", "WNNWNNNNW", 1}
+    {'2', "NNWWNNNNW", 2},  // Char '2'
+    {'3', "WNWWNNNNN", 3},  // Char '3'
+    {'4', "NNNWWNNNW", 4},  // Char '4'
+    {'5', "WNNWWNNNN", 5},  // Char '5'
+    {'6', "NNWWWNNNN", 6},  // Char '6'
+    {'7', "NNNWNNWNW", 7},  // Char '7'
+    {'8', "WNNWNNWNN", 8},  // Char '8'
+    {'9', "NNWWNNWNN", 9},  // Char '9'
+    {'A', "WNNNNWNNW", 10},  // Char 'A'  {'A', "100001001", "WNNNNWNNW", 10},
+    {'B', "NNWNNWNNW", 11},  // Char 'B'
+    {'C', "WNWNNWNNN", 12},  // Char 'C'
+    {'D', "NNNNWWNNW", 13},  // Char 'D'
+    {'E', "WNNNWWNNN", 14},  // Char 'E'
+    {'F', "NNWNWWNNN", 15},  // Char 'F'
+    {'G', "NNNNNWWNW", 16},  // Char 'G'
+    {'H', "WNNNNWWNN", 17},  // Char 'H'
+    {'I', "NNWNNWWNN", 18},  // Char 'I'
+    {'J', "NNNNWWWNN", 19},  // Char 'J'
+    {'K', "WNNNNNNWW", 20},  // Char 'K'
+    {'L', "NNWNNNNWW", 21},  // Char 'L'
+    {'M', "WNWNNNNWN", 22},  // Char 'M'
+    {'N', "NNNNWNNWW", 23},  // Char 'N'
+    {'O', "WNNNWNNWN", 24},  // Char 'O'
+    {'P', "NNWNWNNWN", 25},  // Char 'P'
+    {'Q', "NNNNNNWWW", 26},  // Char 'Q'
+    {'R', "WNNNNNWWN", 27},  // Char 'R'
+    {'S', "NNWNNNWWN", 28},  // Char 'S'
+    {'T', "NNNNWNWWN", 29},  // Char 'T'
+    {'U', "WWNNNNNNW", 30},  // Char 'U'
+    {'V', "NWWNNNNNW", 31},  // Char 'V'
+    {'W', "WWWNNNNNN", 32},  // Char 'W'
+    {'X', "NWNNWNNNW", 33},  // Char 'X'
+    {'Y', "WWNNWNNNN", 34},  // Char 'Y'
+    {'Z', "NWWNWNNNN", 35},  // Char 'Z'
+    {'-', "NWNNNNWNW", 36},  // Char '-'
+    {'.', "WWNNNNWNN", 37},  // Char '.'
+    {' ', "NWWNNNWNN", 38},  // Char ' '
+    {'*', "NWNNWNWNN", -1},  // Char '*'
+    {'$', "NWNWNWNNN", 39},  // Char '$'
+    {'/', "NWNWNNNWN", 40},  // Char '/'
+    {'+', "NWNNNWNWN", 41},  // Char '+'
+    {'%', "NNNWNWNWN", 42}   // Char '%'
 };
-
-
-
 
 
 static const Code39Char *code39_table = code39_table_const;
@@ -79,9 +76,14 @@ static const char code39_chars[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%
 
 void drawCharOnBitmap(unsigned char* bitmap, int width, int heigth, int x_offset, int y_offset, stbtt_fontinfo* font, char character, float scale);
 
+/// @brief Load the specified font.
+/// @param fontPath 
+/// @param fontSize 
+/// @return 
 unsigned char* loadFont(const char* fontPath, int* fontSize);
 
-barcode39Data* calculate(barcodex39opt opt, char *value)
+
+barcode39Data* generate(barcodex39opt opt, char *value)
 {
     if (value == NULL)
     {
@@ -90,36 +92,37 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
     }
 
     const size_t value_len = strlen(value);
-    char* newString = malloc(sizeof(char) * (value_len + 2));
-    if (newString==NULL)
+    char* barcodeNewValue = malloc(sizeof(char) * (value_len + 2));
+    if (barcodeNewValue==NULL)
     {
          fprintf(stderr, "Error on string memory allocation.\n");
          return NULL;
     }
 
-    strcpy(newString, "*");    // Start character (*)    
-    strcat(newString, value);
-    strcat(newString, "*");    // end character (*)  
+    strcpy(barcodeNewValue, "*");    // Start character (*)    
+    strcat(barcodeNewValue, value);
+    strcat(barcodeNewValue, "*");    // end character (*)  
 
     //Barcode line width.
     int narrow = opt.narrowLineWidth;
     int wide = narrow * 3;
     
+    int fontHeight = 28;
 
-    int bcodeWidth = 0;
-    int bar_height = opt.height - 28;
+    int bcodeWidth = 0;                         //The bar code width calculated.
+    int bar_height = opt.height - fontHeight;
 
-    char *char1= newString;     //Rename char1! 
+    char *barcodeValueStr = barcodeNewValue;     
 
     //Cycle the string
-    while (*char1)
+    while (*barcodeValueStr)
     {
         //Return a pointer of first char (*inputString) found in code39_chars.
-        const char *pos = strchr(code39_chars, *char1);
+        const char *pos = strchr(code39_chars, *barcodeValueStr);
         if (pos==NULL)
         {
-            fprintf(stderr, "Invalid BarCode Char:'%c'\n", *char1);
-            exit(1);
+            fprintf(stderr, "Invalid BarCode Char:'%c'\n", *barcodeValueStr);
+             return NULL;
         }
 
         int index = pos - code39_chars;
@@ -133,7 +136,7 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
         //Add the space.
         bcodeWidth +=narrow;
 
-        char1++;
+        barcodeValueStr++;
     }//End while.
 
     //Add the quite space narrow * 10 
@@ -170,16 +173,16 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
     //Calculate the half.
     int x = (imageResult->width - bcodeWidth) /2;
     
-    char1 = newString;
+    barcodeValueStr = barcodeNewValue;
 
-    while (*char1)
+    while (*barcodeValueStr)
     {
          //Return a pointer of first char (*inputString) found in code39_chars.
-        const char *pos = strchr(code39_chars, *char1);
+        const char *pos = strchr(code39_chars, *barcodeValueStr);
         if (pos==NULL)
         {
-            fprintf(stderr, "Invalid BarCode Char:'%c'\n", *char1);
-            exit(1);
+            fprintf(stderr, "Invalid BarCode Char:'%c'\n", *barcodeValueStr);
+            return NULL;
         }
 
         int index = pos - code39_chars;
@@ -216,127 +219,53 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
 
         
 
-        char1++;
+        barcodeValueStr++;
     }
 
     //Load the Font.
     int fontSize;
     unsigned char* fontBuffer = loadFont("../res/RobotoMono-Regular.ttf", &fontSize);
     if (!fontBuffer) {
-        exit(1);
+        printf("Error on loading font.\n");
+        return NULL;
     }
 
     //Get the font offset.
     stbtt_fontinfo font;
     if (!stbtt_InitFont(&font, fontBuffer, stbtt_GetFontOffsetForIndex(fontBuffer, 0))) {
-        printf("Errore nell'inizializzazione del font\n");
+        printf("Error on font initialization.\n");
         free(fontBuffer);
         exit(1);
     }
 
-
-
     //Set the font scale
-    int fontHeight = 28;
+  
     int fontWidth  = fontHeight /2;
     float scale = stbtt_ScaleForPixelHeight(&font, fontHeight);
 
   
     //Reset the pointer.
-    char1 = newString;
+    barcodeValueStr = barcodeNewValue;
     
     //int x = (imageResult->width - bcodeWidth) /2;
-    int startx = (imageResult->width - (strlen(char1) * fontWidth)) / 2;
+    int startx = (imageResult->width - (strlen(barcodeValueStr) * fontWidth)) / 2;
 
   
     int offsetX = 0;
-    int offsetY = bar_height + fontHeight;
+    int offsetY = bar_height + fontHeight -5;
     int counter  = 0;
-    while(*char1)       //change with a for
+    while(*barcodeValueStr)       //change with a for
     {
 
         int value = startx + (counter * fontWidth);
-        drawCharOnBitmap(imageResult->image, imageResult->width, imageResult->heigth, value, offsetY, &font, *char1, scale);
-        char1++;
+        drawCharOnBitmap(imageResult->image, imageResult->width, imageResult->heigth, value, offsetY, &font, *barcodeValueStr, scale);
+        barcodeValueStr++;
         counter++;
     }
   
-
-    //draw_text(imageResult->image,imageResult->width, imageResult->heigth, "ciaone");
-
-    printf("|%s|\n", newString);
-
     return imageResult;
 
 }
-
-
-
-
-bool IsValidString(char * barCodeValue)
-{
-    if (barCodeValue == NULL)
-    {
-        perror("Cannot set a char null pointer.");
-        exit(1);
-    }
-
-    int length = strlen(barCodeValue);
-    if (length>43)
-    {
-        return false;
-    }
-
-    printf("Valore in Ingresso: %s - Len: %d\n", barCodeValue, length);
-
-    for (int si=0; si<length;si++)
-    {
-        char currChar = barCodeValue[si];
-
-        int isAspace  = isspace(currChar) && currChar==' ';
-        int isSpecial = currChar == '-' || currChar =='.' || currChar =='$' || currChar=='/' || currChar =='+' || currChar=='%';
-        
-
-        if (!isalnum(currChar) &&  islower(currChar)  && !isAspace & !isSpecial)
-        {
-            return false;
-        }
-
-        
-    }
-    return true;
-}
-
-void Decode(char *inputString, char *outputString)
-{
-    //BarCode39 init char *
-    if (inputString == NULL)
-    {
-        perror("CREPA");
-        exit(1);
-    }
-
-    strcpy(outputString, "010010100"); // Start character (*)
-
-    while(*inputString)
-    {
-        //Return a pointer of first char (*inputString) found in code39_chars.
-        const char *pos = strchr(code39_chars, *inputString);
-        
-        if (pos!=NULL)
-        {
-            int index = pos - code39_chars;
-            strcat(outputString, &code39_table[index].character);
-        }
-
-        inputString++;
-    }
-
-    strcat(outputString, "010010100"); // Stop character (*)
-
-}
-
-
 
 
 unsigned char* CreateBarCode (int width, int height, char *value)
@@ -355,21 +284,21 @@ unsigned char* CreateBarCode (int width, int height, char *value)
          return NULL;
     }
 
-    memset(image, 255, width * height);  // Fondo bianco
+    memset(image, 255, width * height);  //White background.
 
     return image;
 
 }
 
-void WriteBarCode(unsigned char *image, char *fileName, int width, int height)
-{
-     int res = stbi_write_png(fileName, width, height, 1, image, width);
-     if (res!=1)
-     {
-        perror("Error writing image.");
-        exit(1);
-     }
-}
+// void WriteBarCode(unsigned char *image, char *fileName, int width, int height)
+// {
+//      int res = stbi_write_png(fileName, width, height, 1, image, width);
+//      if (res!=1)
+//      {
+//         perror("Error writing image.");
+//         exit(1);
+//      }
+// }
 
 void savepng(barcode39Data *barCodeImage, char *fileName)
 {

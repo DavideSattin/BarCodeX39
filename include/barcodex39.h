@@ -33,12 +33,8 @@ typedef struct barcodeImageStr
 
 
 
-barcode39Data* calculate(barcodex39opt opt, char *value);
+barcode39Data* generate(barcodex39opt opt, char *value);
 
 void savepng(barcode39Data *barCodeImage, char *fileName);
 
 
-// bool IsValidString(char * barCodeValue);
-// void Decode(char *inputString, char *outputString);
-// unsigned char* CreateBarCode (int width, int height,char *value);
-// void WriteBarCode(unsigned char *image, char *fileName, int width, int height);

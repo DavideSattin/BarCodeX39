@@ -4,15 +4,9 @@
 #include "..\include\barcodex39.h"
 
 
-/*Questa è la versione funzionante*/
 int main()
 {
     printf("BarCode\n");
-
-    // //char value[100] ="-.$/+%";          // Allocazione di memoria per la stringa    
-    // //scanf("%99s", value);             // Legge una stringa di massimo 99 caratteri
-
-   
     char *originalString = "DAVIDE";
   
     //Create options.
@@ -23,7 +17,7 @@ int main()
     opt.showText = false;
     opt.narrowLineWidth = 1;
   
-    barcode39Data* result = calculate(opt, originalString);
+    barcode39Data* result = generate(opt, originalString);
     printf("Result: %d", result->result);
     
     savepng(result,"barcode.png");
