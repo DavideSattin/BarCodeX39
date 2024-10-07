@@ -243,25 +243,23 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     int fontWidth  = fontHeight /2;
     float scale = stbtt_ScaleForPixelHeight(&font, fontHeight);
 
-  
     //Reset the pointer.
     barcodeValueStr = barcodeNewValue;
     
-    //int x = (imageResult->width - bcodeWidth) /2;
+    //Find the center.
     int startx = (imageResult->width - (strlen(barcodeValueStr) * fontWidth)) / 2;
 
-  
-    int offsetX = 0;
     int offsetY = bar_height + fontHeight -5;
     int counter  = 0;
-    while(*barcodeValueStr)       //change with a for
-    {
 
-        int value = startx + (counter * fontWidth);
-        drawCharOnBitmap(imageResult->image, imageResult->width, imageResult->heigth, value, offsetY, &font, *barcodeValueStr, scale);
+    //Draw the text.
+    for (int counter=0; *barcodeValueStr!='\0'; counter++)
+    {
+        int offsetX = startx + (counter * fontWidth);
+        drawCharOnBitmap(imageResult->image, imageResult->width, imageResult->heigth, offsetX, offsetY, &font, *barcodeValueStr, scale);
         barcodeValueStr++;
-        counter++;
     }
+
   
     return imageResult;
 
