@@ -107,7 +107,7 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
     
 
     int bcodeWidth = 0;
-    int bar_height = opt.height - 20;
+    int bar_height = opt.height - 28;
 
     char *char1= newString;     //Rename char1! 
 
@@ -239,7 +239,7 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
     //Set the font scale
     int fontHeight = 28;
     int fontWidth  = fontHeight /2;
-    float scale = stbtt_ScaleForPixelHeight(&font, 28);
+    float scale = stbtt_ScaleForPixelHeight(&font, fontHeight);
 
   
     //Reset the pointer.
@@ -250,7 +250,7 @@ barcode39Data* calculate(barcodex39opt opt, char *value)
 
   
     int offsetX = 0;
-    int offsetY = imageResult->heigth - fontHeight  - 20;
+    int offsetY = bar_height + fontHeight;
     int counter  = 0;
     while(*char1)       //change with a for
     {
