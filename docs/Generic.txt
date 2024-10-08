@@ -1,27 +1,38 @@
-Caratteri supportati: Il Code 39 pu� codificare lettere maiuscole (A-Z), numeri (0-9) 
-e alcuni caratteri speciali (-, ., $, /, +, %, spazio)
+Supported characters: Code 39 can encode uppercase letters (A-Z), numbers (0-9), and some special characters (-, ., $, /, +, %, space).
 
-Struttura del codice: Ogni carattere � rappresentato da 9 elementi (5 barre e 4 spazi), di cui 3 sono larghi 
-e 6 sono stretti.
+Code structure: Each character is represented by 9 elements (5 bars and 4 spaces), 3 of which are wide and 6 are narrow.
 
-Carattere di inizio e fine: Il codice inizia e termina con un asterisco (*).
+Start and stop character: The code begins and ends with an asterisk (*).
 
-Lunghezza variabile: Il Code 39 � a lunghezza variabile, quindi pu� codificare fino a 43 caratteri.
+Variable length: Code 39 is of variable length, so it can encode up to 43 characters.
 
-Zone silenziose: Le zone silenziose (spazi vuoti prima e dopo il codice) 
-devono essere larghe almeno 10 volte la dimensione del modulo pi� stretto.
+Quiet zones: Quiet zones (blank spaces before and after the code) must be at least 10 times the width of the narrowest module.
+
 
 https://www.onbarcode.com/kb/barcode-faq/code-39/
 
 https://www.bardecode.com/en1/code-39-barcode-specification/
 https://www.keyence.eu/ss/products/auto_id/codereader/basic/code39.jsp#:~:text=CODE%2039%20Composition,basic%20composition%20is%20as%20follows%3A&text=One%20letter%20(character)%20is%20represented%20by%209%20bars%20and%20spaces.&text=The%20space%20between%20characters%20is,%22inter%2Dcharacter%20gap%22.
 
-Quindi, non è il valore 0 o 1 a determinare se è una barra o uno spazio, ma la posizione nel pattern:
 
-Per posizione si intende posizione 1 based. 
+Here's the English translation of the text you provided:
 
-Posizioni dispari (1, 3, 5, 7, 9) = Barre
-Posizioni pari (2, 4, 6, 8) = Spazi
+Supported characters: Code 39 can encode uppercase letters (A-Z), numbers (0-9), and some special characters (-, ., $, /, +, %, space).
+
+Code structure: Each character is represented by 9 elements (5 bars and 4 spaces), 3 of which are wide and 6 are narrow.
+
+Start and stop character: The code begins and ends with an asterisk (*).
+
+Variable length: Code 39 is of variable length, so it can encode up to 43 characters.
+
+Quiet zones: Quiet zones (blank spaces before and after the code) must be at least 10 times the width of the narrowest module.
+
+Therefore, it is not the value 0 or 1 that determines whether it is a bar or a space, but the position in the pattern:
+
+By position, we mean 1-based position.
+
+Odd positions (1, 3, 5, 7, 9) = Bars
+Even positions (2, 4, 6, 8) = Spaces
 
 https://online-barcode-reader.inliteresearch.com/
 Testing
