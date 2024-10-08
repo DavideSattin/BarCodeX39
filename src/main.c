@@ -9,22 +9,20 @@ int main()
     printf("BarCode\n");
     char *originalString = "DAVIDE";
   
-    //Create options.
+    //Initialize options.
     barcodex39opt opt = intialize(400,100);
-    // opt.width  = 400;
-    // opt.height = 100;
-    // opt.mode = Fixed;
-    // opt.showText = false;
-    // opt.narrowLineWidth = 1;
-  
-
-  
+    
+    //Generate barcode.
     barcode39Data* result = generate(opt, originalString);
     
+    //Show the result.
     printf("Result: %d", result->result);
     
+    //Save the barcode.
     savepng(result,"barcode.png");
-    
+
+    //Release the memory.
+    destroy(&result);
 
     
  

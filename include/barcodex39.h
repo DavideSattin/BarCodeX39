@@ -38,4 +38,6 @@ barcode39Data* generate(barcodex39opt opt, char *value);
 
 void savepng(barcode39Data *barCodeImage, char *fileName);
 
+void destroy(barcode39Data** barcodeData);
+
 

@@ -374,3 +374,14 @@ void drawCharOnBitmap(unsigned char* bitmap, int imageWidth, int imageHeigth,  i
     stbtt_FreeBitmap(charBitmap, NULL);
 }
 
+void destroy(barcode39Data** barcodeData)
+{
+   if (barcodeData!=NULL && *barcodeData!=NULL)
+   {
+        free((*barcodeData)->image);
+        free(*barcodeData);
+        *barcodeData = NULL;
+      
+   }
+  
+}
