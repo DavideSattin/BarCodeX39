@@ -82,13 +82,28 @@ void drawCharOnBitmap(unsigned char* bitmap, int width, int heigth, int x_offset
 /// @return 
 unsigned char* loadFont(const char* fontPath, int* fontSize);
 
+barcodex39opt intialize(int width, int heigth)
+{
+    barcodex39opt opt;
+    opt.width  = width;
+    opt.height = heigth;
+    opt.mode =  Fixed;
+    opt.narrowLineWidth = 1;
+    opt.showText = true;
+   
+    return opt;
+}
 
+/// @brief generate the bar code. 
+/// @param opt 
+/// @param value 
+/// @return 
 barcode39Data* generate(barcodex39opt opt, char *value)
 {
     if (value == NULL)
     {
         perror("Cannot set a char null pointer.");
-        exit(1);
+        return NULL;
     }
 
     const size_t value_len = strlen(value);
@@ -107,10 +122,10 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     int narrow = opt.narrowLineWidth;
     int wide = narrow * 3;
     
-    int fontHeight = 28;
+    int fontHeight = 28;                        //The font heigth.
 
     int bcodeWidth = 0;                         //The bar code width calculated.
-    int bar_height = opt.height - fontHeight;
+    int bar_height = opt.height - fontHeight;   //The bar code lines height.
 
     char *barcodeValueStr = barcodeNewValue;     
 
@@ -288,15 +303,7 @@ unsigned char* CreateBarCode (int width, int height, char *value)
 
 }
 
-// void WriteBarCode(unsigned char *image, char *fileName, int width, int height)
-// {
-//      int res = stbi_write_png(fileName, width, height, 1, image, width);
-//      if (res!=1)
-//      {
-//         perror("Error writing image.");
-//         exit(1);
-//      }
-// }
+
 
 void savepng(barcode39Data *barCodeImage, char *fileName)
 {

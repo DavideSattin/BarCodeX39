@@ -32,6 +32,7 @@ typedef struct barcodeImageStr
 } barcode39Data;
 
 
+barcodex39opt intialize(int width, int heigth);
 
 barcode39Data* generate(barcodex39opt opt, char *value);
 

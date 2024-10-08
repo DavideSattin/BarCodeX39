@@ -18,8 +18,11 @@ opt.showText = false;
 
 opt.narrowLineWidth = 1;
 
-barcode39Data* result = generate(opt, originalString);
+//Generate the bar code.
+barcode39Data* barcodeData = generate(opt, originalString);
 
+//Save the barcode
+savepng(barcodeData,"barcode.png");
 
 
 ## Compilazione
