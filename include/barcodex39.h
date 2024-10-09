@@ -21,6 +21,7 @@ typedef struct barcodex39opt
     int narrowLineWidth;    
     enum barCodeMode mode;  
     bool showText;
+    int fontHeight;
 } barcodex39opt;
 
 typedef struct barcodeImageStr

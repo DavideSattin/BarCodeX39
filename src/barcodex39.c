@@ -5,14 +5,16 @@
 #include <stdlib.h>
 #include "..\include\barcodex39.h"
 
-
 #define STB_IMAGE_WRITE_IMPLEMENTATION  
 #include "..\include\stb_image_write.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "..\include\stb_truetype.h"
 
-#define BARCODE39_DIGIT  9
+#define BARCODE39_DIGIT  9      //Number of barcode digit.
+#define TEXT_BOTTOM_MARGIN 5    //The text bottom margin.
+#define WHITE  255              //The white color.
+#define DEFAUL_FONT_HEIGHT 28   //The default font heigth.
 
 typedef struct {
     char character;              // CHAR
@@ -69,7 +71,6 @@ static const Code39Char code39_table_const[] = {
     {'%', "NNNWNWNWN", 42}   // Char '%'
 };
 
-
 static const Code39Char *code39_table = code39_table_const;
 
 static const char code39_chars[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%";
@@ -82,6 +83,10 @@ void drawCharOnBitmap(unsigned char* bitmap, int width, int heigth, int x_offset
 /// @return 
 unsigned char* loadFont(const char* fontPath, int* fontSize);
 
+/// @brief Initialize the barcodex39opt structure.
+/// @param width 
+/// @param heigth 
+/// @return 
 barcodex39opt intialize(int width, int heigth)
 {
     barcodex39opt opt;
@@ -90,7 +95,7 @@ barcodex39opt intialize(int width, int heigth)
     opt.mode =  Fixed;
     opt.narrowLineWidth = 1;
     opt.showText = true;
-   
+    opt.fontHeight = DEFAUL_FONT_HEIGHT;
     return opt;
 }
 
@@ -107,7 +112,7 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     }
 
     const size_t value_len = strlen(value);
-    char* barcodeNewValue = malloc(sizeof(char) * (value_len + 2));
+    char* barcodeNewValue  = malloc(sizeof(char) * (value_len + 2));
     if (barcodeNewValue==NULL)
     {
          fprintf(stderr, "Error on string memory allocation.\n");
@@ -122,10 +127,9 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     int narrow = opt.narrowLineWidth;
     int wide = narrow * 3;
     
-    int fontHeight = 28;                        //The font heigth.
 
-    int bcodeWidth = 0;                         //The bar code width calculated.
-    int bar_height = opt.height - fontHeight;   //The bar code lines height.
+    int bcodeWidth = 0;                             //The bar code width calculated.
+    int bar_height = opt.height - opt.fontHeight;   //The bar code lines height.
 
     char *barcodeValueStr = barcodeNewValue;     
 
@@ -159,12 +163,12 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     
     //Create response.
     barcode39Data* imageResult = malloc(sizeof(barcode39Data));
-    imageResult->result = 0;
     if (imageResult==NULL)
     {
          fprintf(stderr, "Error on image memory allocation.\n");
          return NULL;
     }
+    imageResult->result = 0;
 
     //Check
     if (opt.mode == Fixed && bcodeWidth > opt.width)
@@ -179,7 +183,15 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     //Draw barcode
     int memoryLength =opt.width * opt.height;
     imageResult->image  = (unsigned char*)malloc(memoryLength);
-    memset(imageResult->image, 255, memoryLength);  // WHITE BACKGROUND. -> CREATE DEFINE.
+    if (imageResult->image == NULL)
+    {
+         fprintf(stderr, "Error on image memory allocation.\n");
+         return NULL;
+    }
+
+
+    // WHITE BACKGROUND. -> CREATE DEFINE.
+    memset(imageResult->image, 255, memoryLength);  
 
     imageResult->heigth = opt.height;
     imageResult->width  = opt.width;
@@ -250,21 +262,20 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     if (!stbtt_InitFont(&font, fontBuffer, stbtt_GetFontOffsetForIndex(fontBuffer, 0))) {
         printf("Error on font initialization.\n");
         free(fontBuffer);
-        exit(1);
+        return NULL;
     }
 
     //Set the font scale
-  
-    int fontWidth  = fontHeight /2;
-    float scale = stbtt_ScaleForPixelHeight(&font, fontHeight);
+    int fontWidth  = opt.fontHeight / 2;
+    float scale = stbtt_ScaleForPixelHeight(&font, opt.fontHeight);
 
     //Reset the pointer.
     barcodeValueStr = barcodeNewValue;
     
-    //Find the center.
+    //Find the center for the text.
     int startx = (imageResult->width - (strlen(barcodeValueStr) * fontWidth)) / 2;
 
-    int offsetY = bar_height + fontHeight -5;
+    int offsetY = bar_height + opt.fontHeight - TEXT_BOTTOM_MARGIN;
     int counter  = 0;
 
     //Draw the text.
@@ -277,29 +288,6 @@ barcode39Data* generate(barcodex39opt opt, char *value)
 
   
     return imageResult;
-
-}
-
-
-unsigned char* CreateBarCode (int width, int height, char *value)
-{
-    if (width<=0 || height<=0)
-    {
-        fprintf(stderr, "Error: Barcode size not valid. \n");
-        return NULL;
-    }
-
-    // int width = 200, height = 100;
-    unsigned char* image = (unsigned char*)malloc(width * height);
-    if (image==NULL)
-    {
-         fprintf(stderr, "Error on image memory allocation.\n");
-         return NULL;
-    }
-
-    memset(image, 255, width * height);  //White background.
-
-    return image;
 
 }
 
