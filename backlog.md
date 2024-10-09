@@ -3,6 +3,7 @@
 ## Features
 
 - [ ] Implemement the showText. Default = true.
+- [ ] Set the font name.
 
 ## Bugs
 
