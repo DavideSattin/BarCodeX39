@@ -14,6 +14,7 @@
 #define BARCODE39_DIGIT  9      //Number of barcode digit.
 #define TEXT_BOTTOM_MARGIN 5    //The text bottom margin.
 #define WHITE  255              //The white color.
+#define BLACK  0                //The black color.
 #define DEFAUL_FONT_HEIGHT 28   //The default font heigth.
 
 typedef struct {
@@ -111,17 +112,21 @@ barcode39Data* generate(barcodex39opt opt, char *value)
         return NULL;
     }
 
+
     const size_t value_len = strlen(value);
-    char* barcodeNewValue  = malloc(sizeof(char) * (value_len + 3));
+    size_t new_len = value_len + 3;
+    char* barcodeNewValue  = malloc(sizeof(char) * new_len);
     if (barcodeNewValue==NULL)
     {
          fprintf(stderr, "Error on string memory allocation.\n");
          return NULL;
     }
 
-    strcpy(barcodeNewValue, "*");    // Start character (*)    
-    strcat(barcodeNewValue, value);
-    strcat(barcodeNewValue, "*");    // end character (*)  
+    snprintf(barcodeNewValue, new_len, "*%s*", value);  // concatenation
+
+    // strcpy(barcodeNewValue, "*");    // Start character (*)    
+    // strcat(barcodeNewValue, value);
+    // strcat(barcodeNewValue, "*");    // end character (*)  
 
     //Barcode line width.
     int narrow = opt.narrowLineWidth;
@@ -190,7 +195,7 @@ barcode39Data* generate(barcodex39opt opt, char *value)
 
 
     // WHITE BACKGROUND. -> CREATE DEFINE.
-    memset(imageResult->image, 255, memoryLength);  
+    memset(imageResult->image, WHITE, memoryLength);  
 
     imageResult->heigth = opt.height;
     imageResult->width  = opt.width;
@@ -214,14 +219,14 @@ barcode39Data* generate(barcodex39opt opt, char *value)
         int index = pos - code39_chars;
         Code39Char code = code39_table[index];
         
-        for (int i = 0; i<9; i++)
+        for (int i = 0; i<BARCODE39_DIGIT; i++)
         {
             int bar_width = code.nwpattern[i] == 'W' ? wide:narrow;
 
              // x = 0;
             for (int w = 0; w < bar_width; w++) 
             {
-                int pxValue  = (i + 1) % 2 ==0 ? 255: 0;
+                int pxValue  = (i + 1) % 2 ==0 ? WHITE: BLACK;
                 for (int y = 0; y < bar_height; y++) 
                 {
                     imageResult->image[y *  opt.width + x] = pxValue;  
@@ -234,7 +239,7 @@ barcode39Data* generate(barcodex39opt opt, char *value)
             {
                 for (int y = 0; y < bar_height; y++) 
                 {
-                    imageResult->image[y *  opt.width + x] = 255;  
+                    imageResult->image[y *  opt.width + x] = WHITE;  
                 }
             }
             x++;
