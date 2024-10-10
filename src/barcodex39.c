@@ -107,12 +107,12 @@ barcode39Data* generate(barcodex39opt opt, char *value)
 {
     if (value == NULL)
     {
-        perror("Cannot set a char null pointer.");
+        fprintf(stderr, "Cannot set a char null pointer.");
         return NULL;
     }
 
     const size_t value_len = strlen(value);
-    char* barcodeNewValue  = malloc(sizeof(char) * (value_len + 2));
+    char* barcodeNewValue  = malloc(sizeof(char) * (value_len + 3));
     if (barcodeNewValue==NULL)
     {
          fprintf(stderr, "Error on string memory allocation.\n");
@@ -127,7 +127,6 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     int narrow = opt.narrowLineWidth;
     int wide = narrow * 3;
     
-
     int bcodeWidth = 0;                             //The bar code width calculated.
     int bar_height = opt.height - opt.fontHeight;   //The bar code lines height.
 
@@ -141,7 +140,7 @@ barcode39Data* generate(barcodex39opt opt, char *value)
         if (pos==NULL)
         {
             fprintf(stderr, "Invalid BarCode Char:'%c'\n", *barcodeValueStr);
-             return NULL;
+            return NULL;
         }
 
         int index = pos - code39_chars;
@@ -154,8 +153,8 @@ barcode39Data* generate(barcodex39opt opt, char *value)
 
         //Add the space.
         bcodeWidth +=narrow;
-
         barcodeValueStr++;
+
     }//End while.
 
     //Add the quite space narrow * 10 
@@ -223,12 +222,10 @@ barcode39Data* generate(barcodex39opt opt, char *value)
             for (int w = 0; w < bar_width; w++) 
             {
                 int pxValue  = (i + 1) % 2 ==0 ? 255: 0;
-
                 for (int y = 0; y < bar_height; y++) 
                 {
-                     imageResult->image[y *  opt.width + x] = pxValue;  
+                    imageResult->image[y *  opt.width + x] = pxValue;  
                 }
-
                 x++;
             }
 
@@ -237,14 +234,12 @@ barcode39Data* generate(barcodex39opt opt, char *value)
             {
                 for (int y = 0; y < bar_height; y++) 
                 {
-                     imageResult->image[y *  opt.width + x] = 255;  
+                    imageResult->image[y *  opt.width + x] = 255;  
                 }
             }
             x++;
 
         }
-
-        
 
         barcodeValueStr++;
     }
@@ -253,14 +248,14 @@ barcode39Data* generate(barcodex39opt opt, char *value)
     int fontSize;
     unsigned char* fontBuffer = loadFont("../res/RobotoMono-Regular.ttf", &fontSize);
     if (!fontBuffer) {
-        printf("Error on loading font.\n");
+        fprintf(stderr, "Error on loading font.\n");
         return NULL;
     }
 
     //Get the font offset.
     stbtt_fontinfo font;
     if (!stbtt_InitFont(&font, fontBuffer, stbtt_GetFontOffsetForIndex(fontBuffer, 0))) {
-        printf("Error on font initialization.\n");
+        fprintf(stderr, "Error on font initialization.\n");
         free(fontBuffer);
         return NULL;
     }
@@ -298,7 +293,7 @@ void savepng(barcode39Data *barCodeImage, char *fileName)
      int res = stbi_write_png(fileName, barCodeImage->width, barCodeImage->heigth, 1, barCodeImage->image, barCodeImage->width);
      if (res!=1)
      {
-        perror("Error writing image.");
+        fprintf(stderr,"Error writing image.");
         exit(1);
      }
 }
@@ -306,7 +301,7 @@ void savepng(barcode39Data *barCodeImage, char *fileName)
 unsigned char* loadFont(const char* fontPath, int* fontSize) {
     FILE* f = fopen(fontPath, "rb");
     if (!f) {
-        printf("Impossibile aprire il font: %s\n", fontPath);
+        fprintf(stderr,"Cannot load the font: %s\n", fontPath);
         return NULL;
     }
     
@@ -327,38 +322,38 @@ void drawCharOnBitmap(unsigned char* bitmap, int imageWidth, int imageHeigth,  i
     int width, height, xoff, yoff;
     unsigned char* charBitmap;
 
-    // Ottieni le coordinate del bounding box per il carattere
+    // Get the bounding box coordinates for the character
     stbtt_GetCodepointBitmapBox(font, character, scale, scale, &c_x1, &c_y1, &c_x2, &c_y2);
 
-    // Stampa di debug per il bounding box
-    printf("Character bounds for '%c': (%d, %d) to (%d, %d)\n", character, c_x1, c_y1, c_x2, c_y2);
-    printf("Char width: %d, Char height: %d\n", c_x2 - c_x1, c_y2 - c_y1);
+    // Debug print for bounding box
+    // printf("Character bounds for '%c': (%d, %d) to (%d, %d)\n", character, c_x1, c_y1, c_x2, c_y2);
+    // printf("Char width: %d, Char height: %d\n", c_x2 - c_x1, c_y2 - c_y1);
 
-    // Ottieni la bitmap per il carattere
+    // Get the bitmap for the font
     charBitmap = stbtt_GetCodepointBitmap(font, scale, scale, character, &width, &height, &xoff, &yoff);
 
-    // Stampa di debug per la bitmap
-    printf("Bitmap width: %d, height: %d, xoff: %d, yoff: %d\n", width, height, xoff, yoff);
+    // Debug printing for the bitmap
+    // printf("Bitmap width: %d, height: %d, xoff: %d, yoff: %d\n", width, height, xoff, yoff);
 
-    // Ciclo per disegnare il carattere sulla bitmap
+    // Loop to draw the character on the bitmap
     for (int j = 0; j < height; j++) {
         for (int i = 0; i < width; i++) {
             int pixelValue = charBitmap[j * width + i];
 
-            // Verifica che il valore del pixel sia > 0 per disegnare
+            // Check that the pixel value is > 0 to draw
             if (pixelValue > 0) {
-                int dstX = x_offset + i + xoff;  // Usa l'offset X corretto
-                int dstY = y_offset + j + yoff;  // Usa l'offset Y corretto
+                int dstX = x_offset + i + xoff;  // Use the correct X offset
+                int dstY = y_offset + j + yoff;  // Use the correct Y offset
 
-                // Controlla se il pixel � dentro i limiti della bitmap
+                // Checks if the pixel is within the boundaries of the bitmap
                 if (dstX >= 0 && dstX < imageWidth && dstY >= 0 && dstY < imageWidth) {
-                    bitmap[dstY * imageWidth + dstX] = 0;  // Imposta il colore del testo (bianco)
+                    bitmap[dstY * imageWidth + dstX] = 0;  // Set the text color (white)
                 }
             }
         }
     }
 
-    // Libera la bitmap del carattere
+    // Free
     stbtt_FreeBitmap(charBitmap, NULL);
 }
 

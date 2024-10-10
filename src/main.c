@@ -23,9 +23,6 @@ int main()
 
     //Release the memory.
     destroy(&result);
-
     
- 
-
     return 0;
 }
