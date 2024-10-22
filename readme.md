@@ -2,8 +2,7 @@
 
 This library generates Code 39 barcodes in C. The project is in beta version.
 
-
-char *originalString = "DAVIDE";
+char *originalString = "BARCODEVAL";
 
 // Create options.
 barcodex39opt opt;
@@ -25,7 +24,3 @@ barcode39Data* barcodeData = generate(opt, originalString);
 savepng(barcodeData,"barcode.png");
 
 
-## Compilazione
-
-```sh
-make
